@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useBoolean } from "usehooks-ts";
 import toast from "react-hot-toast";
 import { DeleteModal } from "@/components/common/delete-modal";
-import { displayDate, displayNumber, displayValue } from "@/lib/display";
+import { displayDate,  displayValue } from "@/lib/display";
 import WorkScheduleService from "@/services/work-schedule.service";
 import { WorkScheduleForm } from "@/pages/WorkSchedules/view/components/WorkScheduleForm";
 import { WorkScheduleCard } from "@/pages/WorkSchedules/view/components/WorkScheduleCard";
@@ -138,11 +138,7 @@ const useWorkSchedules = () => {
         children: (
           <WorkScheduleForm
             defaultValues={{
-              serviceName: workSchedule?.serviceName || "",
-              price: workSchedule?.price.toString() || "0",
-              type: workSchedule?.type || "",
-              description: workSchedule?.description || "",
-              duration: workSchedule?.duration.toString() || "0",
+              
             }}
             isLoading={isLoading}
             isSubmitting={fetching}
@@ -156,11 +152,10 @@ const useWorkSchedules = () => {
         children: (
           <WorkScheduleCard
             isLoading={isLoading}
-            serviceName={workSchedule?.serviceName || ""}
-            price={workSchedule?.price || 0}
-            type={workSchedule?.type || ""}
-            createdAt={workSchedule?.created_at?.toString() || ""}
-            description={workSchedule?.description || ""}
+            workDate={workSchedule?.work_date}
+            endAt={workSchedule?.end_at}
+            startAt={workSchedule?.start_at}
+            createdAt={workSchedule?.created_at.toString() || "-"}
           />
         ),
       },
@@ -182,25 +177,25 @@ const useWorkSchedules = () => {
 
   const columns = [
     {
-      accessorKey: "serviceName",
+      accessorKey: "work_date",
       header: ({ column }) => (
-        <ColumnHeader column={column} title={displayValue("Service Name")} />
+        <ColumnHeader column={column} title={displayValue("Work Date")} />
       ),
-      cell: ({ row }) => displayValue(row.original.serviceName),
+      cell: ({ row }) => displayDate(row.original.work_date),
     },
     {
-      accessorKey: "price",
+      accessorKey: "start_at",
       header: ({ column }) => (
-        <ColumnHeader column={column} title={displayValue("Price (VND)")} />
+        <ColumnHeader column={column} title={displayValue("Start At")} />
       ),
-      cell: ({ row }) => displayNumber(row.original.price),
+      cell: ({ row }) => displayValue(row.original.start_at),
     },
     {
-      accessorKey: "type",
+      accessorKey: "end_at",
       header: ({ column }) => (
-        <ColumnHeader column={column} title={displayValue("Type")} />
+        <ColumnHeader column={column} title={displayValue("End At")} />
       ),
-      cell: ({ row }) => displayValue(row.original.type),
+      cell: ({ row }) => displayValue(row.original.end_at),
     },
     {
       accessorKey: "createdAt",
@@ -215,11 +210,11 @@ const useWorkSchedules = () => {
       cell: ({ row }) => {
         return (
           <ActionsDropdown
-            onView={() => onOpenChange(EActions.VIEW, row.original.serviceId)}
+            onView={() => onOpenChange(EActions.VIEW, row.original.workScheduleId)}
             onDelete={() =>
-              onOpenChange(EActions.DELETE, row.original.serviceId)
+              onOpenChange(EActions.DELETE, row.original.workScheduleId)
             }
-            onEdit={() => onOpenChange(EActions.UPDATE, row.original.serviceId)}
+            onEdit={() => onOpenChange(EActions.UPDATE, row.original.workScheduleId)}
           />
         );
       },

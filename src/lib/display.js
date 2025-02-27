@@ -1,11 +1,19 @@
 import dayjs from "dayjs";
-import { PHONE_NUMBER_PATTERN, VN_DATE_FORMAT_PATTERN } from "@/lib/rule";
+import { HOURS_FORMAT_PATTERN, PHONE_NUMBER_PATTERN, VN_DATE_FORMAT_PATTERN, VN_TIME_DATE_FORMAT_PATTERN } from "@/lib/rule";
 
 export const displayValue = (value) => {
     return value || "-";
 }
 
+export const displayTime = (time, format = HOURS_FORMAT_PATTERN) => {
+    return time ? dayjs(time).format(format) : "-";
+}
+
 export const displayDate = (date, format = VN_DATE_FORMAT_PATTERN) => {
+    return date ? dayjs(date).format(format) : "-";
+}
+
+export const displayDateTime = (date, format = VN_TIME_DATE_FORMAT_PATTERN) => {
     return date ? dayjs(date).format(format) : "-";
 }
 

@@ -6,21 +6,39 @@ import {
     FormMessage,
   } from "@/components/ui/form";
   import { Input } from "@/components/ui/input";
-  import { Textarea } from "@/components/ui/textarea";
   import { FormWrapper } from "@/components/common/form-wrapper";
-  import { serviceSchema } from "@/lib/schema";
+  import {  workScheduleSchema } from "@/lib/schema";
+import { DatePicker } from "@/components/common/date-picker";
   
   export const WorkScheduleForm = (props) => {
     return (
-      <FormWrapper schema={serviceSchema} {...props}>
+      <FormWrapper schema={workScheduleSchema} {...props}>
         {(form) => (
           <>
             <FormField
               control={form.control}
-              name="serviceName"
+              name="workDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Work Date</FormLabel>
+                  <FormControl>
+                    <DatePicker
+                      date={field.value}
+                      onDateChange={(date) => field.onChange(date)}
+                      title={"Pick a Work Date"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="startAt"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Service Name</FormLabel>
+                  <FormLabel>Start At</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -28,62 +46,21 @@ import {
                 </FormItem>
               )}
             />
-  
+
             <FormField
-              name="price"
               control={form.control}
+              name="endAt"
               render={({ field }) => (
-                <FormItem className="col-span-2 md:col-span-1">
-                  <FormLabel>Price</FormLabel>
+                <FormItem>
+                  <FormLabel>End At</FormLabel>
                   <FormControl>
-                    <Input {...field} type="number" className="text-md" />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-  
-            <FormField
-              name="duration"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem className="col-span-2 md:col-span-1">
-                  <FormLabel>Duration</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="number" className="text-md" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-  
-            <FormField
-              name="type"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem className="col-span-2 md:col-span-1">
-                  <FormLabel>Type</FormLabel>
-                  <FormControl>
-                    <Input {...field} className="text-md" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-  
-            <FormField
-              name="description"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem className="col-span-2 md:col-span-1">
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea {...field} className="text-md" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            
           </>
         )}
       </FormWrapper>

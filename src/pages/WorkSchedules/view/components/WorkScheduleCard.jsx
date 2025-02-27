@@ -1,13 +1,12 @@
 import { Spinner } from "@/components/ui/spinner";
 import { Col } from "@/components/common/grid/col";
-import { displayDate, displayNumber, displayValue } from "@/lib/display";
+import { displayDate,  displayValue } from "@/lib/display";
 
 export const WorkScheduleCard = ({
-  serviceName,
-  price,
-  type,
+  workDate,
+  startAt,
+  endAt,
   createdAt,
-  description,
   isLoading,
 }) => {
   if (isLoading) {
@@ -16,11 +15,9 @@ export const WorkScheduleCard = ({
 
   return (
     <div className="flex flex-col gap-3 border border-gray-200 p-4 rounded-lg">
-      <Col label={"Service Name"} value={displayValue(serviceName)} />
-      <Col label={"Price (VND)"} value={displayNumber(price)} />
-      <Col label={"Type"} value={displayValue(type)} />
-
-      <Col label={"Description"} value={displayValue(description)} />
+      <Col label={"Work Date"} value={displayValue(workDate)} />
+      <Col label={"Start At"} value={displayValue(startAt)} />
+      <Col label={"End At"} value={displayValue(endAt)} />
       <Col label={"Created At"} value={displayDate(createdAt)} />
     </div>
   );
