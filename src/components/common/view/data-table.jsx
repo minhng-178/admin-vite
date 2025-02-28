@@ -36,7 +36,7 @@ export function DataTable({
         <div className="flex flex-col h-full gap-3">
             <div className="flex-grow rounded-md border">
                 {isLoading ? (
-                    <Spinner size={"large"} />
+                   <div className="flex flex-1 justify-center h-[50vh]"> <Spinner size={"large"} /></div>
                 ) : (
                     <Table>
                         <TableHeader className="bg-neutral-200">

@@ -30,7 +30,7 @@ export const DatePicker = ({ title, date, onDateChange }) => {
           selected={date}
           onSelect={onDateChange}
           initialFocus
-          disabledDays={{ before: new Date() }}
+          min={new Date()}
         />
       </PopoverContent>
     </Popover>
