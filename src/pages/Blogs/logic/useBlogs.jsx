@@ -115,7 +115,7 @@ const useBlogs = () => {
   function formConfigMap(action) {
     const mappingValues = {
       [EActions.CREATE]: {
-        title: "Create Form",
+        title: "Create Blog",
         children: (
           <BlogForm
             isLoading={isLoading}
@@ -126,7 +126,7 @@ const useBlogs = () => {
         ),
       },
       [EActions.UPDATE]: {
-        title: "Update Form",
+        title: "Update Blog",
         children: (
           <BlogForm
             defaultValues={{
@@ -152,7 +152,7 @@ const useBlogs = () => {
         ),
       },
       [EActions.DELETE]: {
-        title: "Delete Service",
+        title: "Delete Blog",
         children: (
           <DeleteModal
             isSubmitting={fetching}

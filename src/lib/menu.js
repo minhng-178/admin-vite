@@ -1,4 +1,4 @@
-import { Bot, SquareTerminal } from "lucide-react";
+import {  LayoutDashboard, SquareTerminal } from "lucide-react";
 
 export const menu =  [
     {
@@ -20,7 +20,7 @@ export const menu =  [
     {
       title: "Management",
       url: "#",
-      icon: Bot,
+      icon: LayoutDashboard,
       items: [
         {
           title: "Users",
@@ -50,6 +50,10 @@ export const menu =  [
           title: "Work schedule",
           url: "/work-schedules",
         },
+        {
+          title: "Experts",
+          url: "/experts",
+        }
       ],
     },
   ]

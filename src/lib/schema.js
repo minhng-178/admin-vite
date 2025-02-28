@@ -33,9 +33,9 @@ export const postSchema = z.object({
 
 export const workScheduleSchema = z.object({
     workDate: z.date(),
-    startAt: z.string().min(1),
-    endAt: z.string().min(1),
-    createdAt: z.string().min(1)
+    startAt: z.date(),
+    endAt: z.date(),
+    expertId: z.string().min(1)
 }).refine(data => new Date(`1970-01-01T${data.endAt}:00Z`) > new Date(`1970-01-01T${data.startAt}:00Z`), {
     message: "endAt must be later than startAt",
     path: ["endAt"]

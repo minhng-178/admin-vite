@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, isBefore, startOfDay } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ export const DatePicker = ({ title, date, onDateChange }) => {
           selected={date}
           onSelect={onDateChange}
           initialFocus
-          min={new Date()}
+          disabled={(date) => isBefore(date, startOfDay(new Date()))}
         />
       </PopoverContent>
     </Popover>

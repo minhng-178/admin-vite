@@ -4,6 +4,7 @@ import OverviewPage from "@/pages/Dashboard/OverView";
 import ServicesView from "@/pages/Services/view/ServicesView";
 import PostsView from "@/pages/Posts/view/PostsView";
 import WorkSchedulesView from "@/pages/WorkSchedules/view/WorkSchedulesView";
+import ExpertsView from "@/pages/Experts/view/ExpertsView";
 
 export const mainRoutes = [
       {
@@ -29,5 +30,9 @@ export const mainRoutes = [
       {
         path: "/work-schedules",
         component: WorkSchedulesView,
+      },
+      {
+        path: "/experts",
+        component: ExpertsView,
       }
 ];

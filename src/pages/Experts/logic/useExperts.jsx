@@ -2,16 +2,16 @@ import { DeleteModal } from "@/components/common/delete-modal";
 import { ActionsDropdown } from "@/components/common/view/actions-dropdown";
 import { ColumnHeader } from "@/components/common/view/column-header";
 import { EActions } from "@/enums/actions";
-import { displayDate, displayValue } from "@/lib/display";
-import PostsService from "@/services/posts.service";
+import { displayDate, displayNumber, displayValue } from "@/lib/display";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useBoolean } from "usehooks-ts";
-import { PostForm } from "@/pages/Posts/view/components/PostForm";
-import { PostCard } from "@/pages/Posts/view/components/PostCard";
+import { ExpertsForm } from "@/pages/Experts/view/components/ExpertsForm";
+import { ExpertsCard } from "@/pages/Experts/view/components/ExpertsCard";
+import ExpertsService from "@/services/experts.service";
 
-const usePosts = () => {
+const useExperts = () => {
     const {
         value: open,
         setTrue: setOpen,
@@ -27,14 +27,14 @@ const usePosts = () => {
       const [id, setId] = useState("");
       const queryClient = useQueryClient();
     
-      const { data: post, isLoading } = useQuery({
-        queryKey: ["post", id],
-        queryFn: () => PostsService.getPost(id),
+      const { data: expert, isLoading } = useQuery({
+        queryKey: ["expert", id],
+        queryFn: () => ExpertsService.getExpert(id),
         enabled: !!id,
       });
     
-      const createPostMutation = useMutation({
-        mutationFn: (data) => PostsService.createPost(data),
+      const createExpertsMutation = useMutation({
+        mutationFn: (data) => ExpertsService.createExpert(data),
         onMutate: () => {
           setFetching();
         },
@@ -46,15 +46,15 @@ const usePosts = () => {
         onSuccess: () => {
           setFetched();
           queryClient.invalidateQueries({
-            queryKey: ["posts"],
+            queryKey: ["experts"],
           });
           toast.success("Create successfully");
           onClose();
         },
       });
     
-      const updatePostMutation = useMutation({
-        mutationFn: (data) => PostsService.updatePost(data),
+      const updateExpertsMutation = useMutation({
+        mutationFn: (data) => ExpertsService.updateExpert(data),
         onMutate: () => {
           setFetching();
         },
@@ -66,15 +66,15 @@ const usePosts = () => {
         onSuccess: () => {
           setFetched();
           queryClient.invalidateQueries({
-            queryKey: ["posts"],
+            queryKey: ["experts"],
           });
           toast.success("Update successfully");
           onClose();
         },
       });
     
-      const deletePostMutation = useMutation({
-        mutationFn: (id) => PostsService.deletePost(id),
+      const deleteExpertsMutation = useMutation({
+        mutationFn: (id) => ExpertsService.deleteExpert(id),
         onMutate: () => {
           setFetching();
         },
@@ -86,7 +86,7 @@ const usePosts = () => {
         onSuccess: () => {
           setFetched();
           queryClient.invalidateQueries({
-            queryKey: ["posts"],
+            queryKey: ["experts"],
           });
           toast.success("Delete successfully");
           onClose();
@@ -106,18 +106,18 @@ const usePosts = () => {
     
       async function onSubmit(data) {
         if (actions === EActions.CREATE) {
-          createPostMutation.mutate(data);
+          createExpertsMutation.mutate(data);
         } else {
-          updatePostMutation.mutate({ id, ...data });
+          updateExpertsMutation.mutate({ id, ...data });
         }
       }
     
       function formConfigMap(action) {
         const mappingValues = {
           [EActions.CREATE]: {
-            title: "Create Post",
+            title: "Create Form",
             children: (
-              <PostForm
+              <ExpertsForm
                 isLoading={isLoading}
                 isSubmitting={fetching}
                 onSubmit={onSubmit}
@@ -126,12 +126,12 @@ const usePosts = () => {
             ),
           },
           [EActions.UPDATE]: {
-            title: "Update Post",
+            title: "Update Form",
             children: (
-              <PostForm
+              <ExpertsForm
                 defaultValues={{
-                  content: post?.content || "",
-                  title: post?.title || "",
+                  content: expert?.content || "",
+                  title: expert?.title || "",
                 }}
                 isLoading={isLoading}
                 isSubmitting={fetching}
@@ -141,23 +141,25 @@ const usePosts = () => {
             ),
           },
           [EActions.VIEW]: {
-            title: "View Post",
+            title: "View Expert",
             children: (
-              <PostCard
+              <ExpertsCard
                 isLoading={isLoading}
-                createdAt={post?.createdAt || ""}
-                content={post?.content || ""}
-                title={post?.title || ""}
+                createdAt={expert?.created_at || ""}
+                fullName={expert?.fullName || ""}
+                specialization={expert?.specialization || ""}
+                yearOfExperiences={expert?.yearOfExperiences || ""}
+                description={expert?.description || ""}
               />
             ),
           },
           [EActions.DELETE]: {
-            title: "Delete Post",
+            title: "Delete Expert",
             children: (
               <DeleteModal
                 isSubmitting={fetching}
                 onDismiss={onClose}
-                onSubmitting={() => deletePostMutation.mutate(id.toString())}
+                onSubmitting={() => deleteExpertsMutation.mutate(id.toString())}
               />
             ),
           },
@@ -169,26 +171,33 @@ const usePosts = () => {
     
       const columns = [
         {
-          accessorKey: "Title",
+          accessorKey: "fullName",
           header: ({ column }) => (
-            <ColumnHeader column={column} title={displayValue("Title")} />
+            <ColumnHeader column={column} title={displayValue("Full Name")} />
           ),
-          cell: ({ row }) => displayValue(row.original.title),
+          cell: ({ row }) => displayValue(row.original.fullName),
         },
     
         {
-          accessorKey: "Content",
+          accessorKey: "specialization",
           header: ({ column }) => (
-            <ColumnHeader column={column} title={displayValue("Content")} />
+            <ColumnHeader column={column} title={displayValue("Specialization")} />
           ),
-          cell: ({ row }) => displayValue(row.original.content),
+          cell: ({ row }) => displayValue(row.original.specialization),
+        },
+        {
+          accessorKey: "yearOfExperiences",
+          header: ({ column }) => (
+            <ColumnHeader column={column} title={displayValue("Year of experiences")} />
+          ),
+          cell: ({ row }) => displayNumber(row.original.yearOfExperiences),
         },
         {
           accessorKey: "createdAt",
           header: ({ column }) => (
             <ColumnHeader column={column} title={displayValue("Created At")} />
           ),
-          cell: ({ row }) => displayDate(row.original.createdAt),
+          cell: ({ row }) => displayDate(row.original.created_at),
         },
         {
           accessorKey: "actions",
@@ -196,11 +205,11 @@ const usePosts = () => {
           cell: ({ row }) => {
             return (
               <ActionsDropdown
-                onView={() => onOpenChange(EActions.VIEW, row.original.blogId)}
+                onView={() => onOpenChange(EActions.VIEW, row.original.expertId)}
                 onDelete={() =>
-                  onOpenChange(EActions.DELETE, row.original.blogId)
+                  onOpenChange(EActions.DELETE, row.original.expertId)
                 }
-                onEdit={() => onOpenChange(EActions.UPDATE, row.original.blogId)}
+                onEdit={() => onOpenChange(EActions.UPDATE, row.original.expertId)}
               />
             );
           },
@@ -209,8 +218,8 @@ const usePosts = () => {
     
       const breadcrumb = [
         {
-          title: "Posts",
-          url: "/posts",
+          title: "Experts",
+          url: "/experts",
         },
       ];
     
@@ -218,7 +227,7 @@ const usePosts = () => {
         open,
         breadcrumb,
         columns,
-        post,
+        expert,
         actions,
         fetching,
         isLoading,
@@ -229,4 +238,4 @@ const usePosts = () => {
       };
 }
  
-export default usePosts;
+export default useExperts;
