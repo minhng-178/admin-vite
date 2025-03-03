@@ -10,7 +10,7 @@ import { displayDate, displayValue } from "@/lib/display";
 import WorkScheduleService from "@/services/work-schedule.service";
 import { WorkScheduleForm } from "@/pages/WorkSchedules/view/components/WorkScheduleForm";
 import { WorkScheduleCard } from "@/pages/WorkSchedules/view/components/WorkScheduleCard";
-import { setValidDate, setValidTime } from "@/lib/time-picker";
+import { setTimeStringToValidTime, setValidDate, setValidTime } from "@/lib/time-picker";
 
 const useWorkSchedules = () => {
   const {
@@ -143,7 +143,12 @@ const useWorkSchedules = () => {
         title: "Update Work Schedule",
         children: (
           <WorkScheduleForm
-            defaultValues={{}}
+            defaultValues={{
+              expertId: workSchedule?.expertId.toString(),
+              work_date: workSchedule?.work_date,
+              start_at: setTimeStringToValidTime(workSchedule?.start_at),
+              end_at: setTimeStringToValidTime(workSchedule?.end_at),
+            }}
             isLoading={isLoading}
             isSubmitting={fetching}
             onSubmit={onSubmit}

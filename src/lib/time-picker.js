@@ -101,6 +101,12 @@ export function isValidHour(value) {
     const date = new Date(value);
     return date.toTimeString().split(' ')[0];
   }
+
+  export function setTimeStringToValidTime(value) {
+    if (!value) return new Date();
+    const [hours, minutes, seconds] = value.split(':').map(Number);
+    return new Date(0, 0, 0, hours, minutes, seconds);
+  }
   
   export function set12Hours(date, value, period) {
     const hours = parseInt(getValid12Hour(value), 10);

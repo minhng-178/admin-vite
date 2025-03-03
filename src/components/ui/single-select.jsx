@@ -1,12 +1,12 @@
-import React from "react"
-import { ChevronDown, Loader2, XIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import React from "react";
+import { ChevronDown, Loader2, XIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
-} from "@/components/ui/popover"
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Command,
   CommandEmpty,
@@ -14,9 +14,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator
-} from "@/components/ui/command"
-import { Separator } from "@/components/ui/separator"
+  CommandSeparator,
+} from "@/components/ui/command";
+import { Separator } from "@/components/ui/separator";
 
 const SingleSelect = React.forwardRef(
   (
@@ -29,40 +29,41 @@ const SingleSelect = React.forwardRef(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [selectedValue, setSelectedValue] = React.useState(
-      defaultValue || null
-    )
-    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false)
+      defaultValue || null,
+    );
 
-    const handleInputKeyDown = event => {
+    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
+
+    const handleInputKeyDown = (event) => {
       if (event.key === "Enter") {
-        setIsPopoverOpen(true)
+        setIsPopoverOpen(true);
       } else if (event.key === "Backspace" && !event.currentTarget.value) {
-        setSelectedValue(null)
-        onValueChange("")
+        setSelectedValue(null);
+        onValueChange("");
       }
-    }
+    };
 
-    const handleOptionSelect = value => {
-      setSelectedValue(value)
-      onValueChange(value)
-      setIsPopoverOpen(false)
-    }
+    const handleOptionSelect = (value) => {
+      setSelectedValue(value);
+      onValueChange(value);
+      setIsPopoverOpen(false);
+    };
 
     const handleTogglePopover = () => {
-      setIsPopoverOpen(prev => !prev)
-    }
+      setIsPopoverOpen((prev) => !prev);
+    };
 
     const handleClear = () => {
-      setSelectedValue(null)
-      onValueChange("")
-    }
+      setSelectedValue(null);
+      onValueChange("");
+    };
 
     const renderSelectedOption = () => {
-      const option = options.find(option => option.value === selectedValue)
-      const IconComponent = option?.icon
+      const option = options.find((option) => option.value === selectedValue);
+      const IconComponent = option?.icon;
       return (
         <p
           key={option?.value}
@@ -71,8 +72,8 @@ const SingleSelect = React.forwardRef(
           {IconComponent && <IconComponent className="h-4 w-4 mr-2" />}
           {option?.label}
         </p>
-      )
-    }
+      );
+    };
 
     return (
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -80,15 +81,15 @@ const SingleSelect = React.forwardRef(
           <Button
             ref={ref}
             {...props}
-            onClick={e => {
+            onClick={(e) => {
               // Only toggle popover when the click does not originate from the XIcon
               if (!e.defaultPrevented) {
-                handleTogglePopover()
+                handleTogglePopover();
               }
             }}
             className={cn(
               "flex w-full p-1 rounded-md border min-h-10 h-auto items-center justify-between bg-inherit hover:bg-inherit",
-              className
+              className,
             )}
           >
             {isLoading && (
@@ -104,10 +105,10 @@ const SingleSelect = React.forwardRef(
                 <div className="flex items-center justify-between">
                   <XIcon
                     className="h-4 mx-2 cursor-pointer text-muted-foreground"
-                    onClick={event => {
-                      event.preventDefault()
-                      event.stopPropagation()
-                      handleClear()
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      handleClear();
                     }}
                   />
                   <Separator
@@ -136,9 +137,9 @@ const SingleSelect = React.forwardRef(
             <CommandList>
               <CommandEmpty>{"No data found"}</CommandEmpty>
               <CommandGroup>
-                {options.map(option => {
-                  const isSelected = selectedValue === option.value
-                  const IconComponent = option.icon
+                {options.map((option) => {
+                  const isSelected = selectedValue === option.value;
+                  const IconComponent = option.icon;
 
                   return (
                     <CommandItem
@@ -146,7 +147,7 @@ const SingleSelect = React.forwardRef(
                       onSelect={() => handleOptionSelect(option.value)}
                       className={cn(
                         "cursor-pointer",
-                        isSelected ? "bg-neutral-200 dark:bg-neutral-800" : ""
+                        isSelected ? "bg-neutral-200 dark:bg-neutral-800" : "",
                       )}
                     >
                       {IconComponent && (
@@ -155,13 +156,13 @@ const SingleSelect = React.forwardRef(
                       <span
                         className={cn(
                           "text-black dark:text-white",
-                          isSelected ? "font-semibold" : "font-normal"
+                          isSelected ? "font-semibold" : "font-normal",
                         )}
                       >
                         {option.label}
                       </span>
                     </CommandItem>
-                  )
+                  );
                 })}
               </CommandGroup>
               <CommandSeparator />
@@ -179,10 +180,10 @@ const SingleSelect = React.forwardRef(
           </Command>
         </PopoverContent>
       </Popover>
-    )
-  }
-)
+    );
+  },
+);
 
-SingleSelect.displayName = "SingleSelect"
+SingleSelect.displayName = "SingleSelect";
 
-export { SingleSelect }
+export { SingleSelect };

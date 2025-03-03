@@ -105,8 +105,25 @@ const useExperts = () => {
       }
     
       async function onSubmit(data) {
+        const payload = {
+           usersDTO: {
+            username: data.fullName,
+            password: data.password,
+            fullName: data.fullName,
+            email: data.email,
+            phone: data.phone,
+           },
+           expertsDTO:{
+            specialization: data.specialization,
+            yearOfExperiences: data.yearOfExperiences,
+            description: data.description,
+            imageBase64: data.imageBase64,
+           }
+        }
+
+
         if (actions === EActions.CREATE) {
-          createExpertsMutation.mutate(data);
+          createExpertsMutation.mutate(payload);
         } else {
           updateExpertsMutation.mutate({ id, ...data });
         }
@@ -130,8 +147,11 @@ const useExperts = () => {
             children: (
               <ExpertsForm
                 defaultValues={{
-                  content: expert?.content || "",
-                  title: expert?.title || "",
+                  fullName: expert?.fullName || "",
+                  specialization: expert?.specialization || "",
+                  yearOfExperiences: expert?.yearOfExperiences || "",
+                  description: expert?.description || "",
+                  imageBase64: expert?.imageBase64 || "",
                 }}
                 isLoading={isLoading}
                 isSubmitting={fetching}
@@ -150,6 +170,7 @@ const useExperts = () => {
                 specialization={expert?.specialization || ""}
                 yearOfExperiences={expert?.yearOfExperiences || ""}
                 description={expert?.description || ""}
+                imageBase64={expert?.imageBase64 || ""}
               />
             ),
           },

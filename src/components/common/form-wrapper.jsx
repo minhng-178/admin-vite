@@ -31,7 +31,7 @@ export const FormWrapper = ({
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col space-y-2 sm:px-0 px-4"
+                className="max-h-[80vh] overflow-auto flex flex-col space-y-2 px-2"
             >
                 {children(form)}
                 <div className="flex justify-end mt-4">

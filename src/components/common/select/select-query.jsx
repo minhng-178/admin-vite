@@ -20,6 +20,7 @@ export const SelectQuery = ({
     ...queryConfig,
     //defaultPaging: { page: 1, pageSize: 10 }
   };
+  
 
   const { data, isLoading } = useQuery(
     {
@@ -43,7 +44,7 @@ export const SelectQuery = ({
         isLoading={isLoading}
         onValueChange={(values) => onValueChange(values)}
         placeholder={String(placeholder)}
-        defaultValue={Array.isArray(defaultValue) ? defaultValue : []}
+        defaultValue={Array.isArray(defaultValue) ? defaultValue[0] : []}
         className={className}
       />
     );
@@ -59,7 +60,7 @@ export const SelectQuery = ({
       isLoading={isLoading}
       onValueChange={(value) => onValueChange(value)}
       placeholder={String(placeholder)}
-      defaultValue={Array.isArray(defaultValue) ? defaultValue[0] : ""}
+      defaultValue={defaultValue ? defaultValue : ""}
       className={className}
     />
   );
