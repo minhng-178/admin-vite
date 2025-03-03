@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 /**
  * regular expression to check for valid hour format (01-23)
  */
@@ -88,6 +90,16 @@ export function isValidHour(value) {
     const hours = getValidHour(value);
     date.setHours(parseInt(hours, 10));
     return date;
+  }
+
+  export function setValidDate(value) {
+      const date = new Date(value);
+      return format(date, 'yyyy-MM-dd');
+  }
+
+  export function setValidTime(value) {
+    const date = new Date(value);
+    return date.toTimeString().split(' ')[0];
   }
   
   export function set12Hours(date, value, period) {

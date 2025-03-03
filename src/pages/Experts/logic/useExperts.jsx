@@ -25,7 +25,7 @@ const useExperts = () => {
     
       const [actions, setActions] = useState(EActions.CREATE);
       const [id, setId] = useState("");
-      const queryClient = useQueryClient();
+      const {invalidateQueries} = useQueryClient();
     
       const { data: expert, isLoading } = useQuery({
         queryKey: ["expert", id],
@@ -45,7 +45,7 @@ const useExperts = () => {
         },
         onSuccess: () => {
           setFetched();
-          queryClient.invalidateQueries({
+          invalidateQueries({
             queryKey: ["experts"],
           });
           toast.success("Create successfully");
@@ -65,7 +65,7 @@ const useExperts = () => {
         },
         onSuccess: () => {
           setFetched();
-          queryClient.invalidateQueries({
+          invalidateQueries({
             queryKey: ["experts"],
           });
           toast.success("Update successfully");
@@ -85,7 +85,7 @@ const useExperts = () => {
         },
         onSuccess: () => {
           setFetched();
-          queryClient.invalidateQueries({
+          invalidateQueries({
             queryKey: ["experts"],
           });
           toast.success("Delete successfully");
@@ -115,7 +115,7 @@ const useExperts = () => {
       function formConfigMap(action) {
         const mappingValues = {
           [EActions.CREATE]: {
-            title: "Create Form",
+            title: "Create Expert",
             children: (
               <ExpertsForm
                 isLoading={isLoading}
@@ -126,7 +126,7 @@ const useExperts = () => {
             ),
           },
           [EActions.UPDATE]: {
-            title: "Update Form",
+            title: "Update Expert",
             children: (
               <ExpertsForm
                 defaultValues={{

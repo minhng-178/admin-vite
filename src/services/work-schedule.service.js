@@ -9,8 +9,8 @@ export default class WorkScheduleService {
         return (await http.get(`/api/workSchedule/findById/${id}`))?.data;
     }
 
-    static async createWorkSchedule(data) {
-        return await http.post("/api/workSchedule/add", data);
+    static async createWorkSchedule(id, data) {
+        return await http.post(`/api/workSchedule/add?expertId=${id}`, data);
     }
 
     static async updateWorkSchedule(id, data) {

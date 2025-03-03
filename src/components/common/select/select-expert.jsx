@@ -8,6 +8,7 @@ export const SelectExpert = ({placeholder, value, onChange}) => {
         queryKey: "experts",
         queryFn: ExpertsService.getExperts
       }}
+      mode="single"
       itemValueKey="expertId"
       itemLabelKey="fullName"
       defaultValue={value}

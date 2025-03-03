@@ -26,7 +26,7 @@ export const WorkScheduleForm = (props) => {
                   <SelectExpert
                     placeholder="Select Employee"
                     value={field.value}
-                    onChange={(e) => field.onChange(e.target.value)}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
@@ -36,7 +36,7 @@ export const WorkScheduleForm = (props) => {
 
           <FormField
             control={form.control}
-            name="workDate"
+            name="work_date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Work Date</FormLabel>
@@ -54,7 +54,7 @@ export const WorkScheduleForm = (props) => {
 
           <FormField
             control={form.control}
-            name="startAt"
+            name="start_at"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Start At</FormLabel>
@@ -71,7 +71,7 @@ export const WorkScheduleForm = (props) => {
 
           <FormField
             control={form.control}
-            name="endAt"
+            name="end_at"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>End At</FormLabel>

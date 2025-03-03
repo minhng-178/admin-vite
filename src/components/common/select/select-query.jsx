@@ -35,7 +35,7 @@ export const SelectQuery = ({
     return (
       <MultiSelect
         options={
-          data?.data?.items?.map((item) => ({
+          data?.map((item) => ({
             label: String(item[itemLabelKey]),
             value: String(item[itemValueKey]),
           })) || []
@@ -51,7 +51,7 @@ export const SelectQuery = ({
   return (
     <SingleSelect
       options={
-        data?.data?.items.map((item) => ({
+        data?.map((item) => ({
           label: String(item[itemLabelKey]),
           value: String(item[itemValueKey]),
         })) || []

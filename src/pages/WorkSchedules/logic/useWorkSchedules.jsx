@@ -6,10 +6,11 @@ import { useState } from "react";
 import { useBoolean } from "usehooks-ts";
 import toast from "react-hot-toast";
 import { DeleteModal } from "@/components/common/delete-modal";
-import { displayDate,  displayValue } from "@/lib/display";
+import { displayDate, displayValue } from "@/lib/display";
 import WorkScheduleService from "@/services/work-schedule.service";
 import { WorkScheduleForm } from "@/pages/WorkSchedules/view/components/WorkScheduleForm";
 import { WorkScheduleCard } from "@/pages/WorkSchedules/view/components/WorkScheduleCard";
+import { setValidDate, setValidTime } from "@/lib/time-picker";
 
 const useWorkSchedules = () => {
   const {
@@ -34,7 +35,7 @@ const useWorkSchedules = () => {
   });
 
   const createWorkScheduleMutation = useMutation({
-    mutationFn: (data) => WorkScheduleService.createWorkSchedule(data),
+    mutationFn: ({ expertId, data }) => WorkScheduleService.createWorkSchedule(expertId, data),
     onMutate: () => {
       setFetching();
     },
@@ -112,11 +113,16 @@ const useWorkSchedules = () => {
   }
 
   async function onSubmit(data) {
+    const payload = {
+      work_date: setValidDate(data.work_date),
+      start_at: setValidTime(data.start_at),
+      end_at: setValidTime(data.end_at),
+    };
+
     if (actions === EActions.CREATE) {
-      createWorkScheduleMutation.mutate(data);
-    }
-    if (actions === EActions.UPDATE) {
-      updateWorkScheduleMutation.mutate(data);
+      createWorkScheduleMutation.mutate({ expertId: data.expertId, data: payload });
+    } else  {
+      updateWorkScheduleMutation.mutate(payload);
     }
   }
 
@@ -137,9 +143,7 @@ const useWorkSchedules = () => {
         title: "Update Work Schedule",
         children: (
           <WorkScheduleForm
-            defaultValues={{
-              
-            }}
+            defaultValues={{}}
             isLoading={isLoading}
             isSubmitting={fetching}
             onSubmit={onSubmit}
@@ -165,7 +169,9 @@ const useWorkSchedules = () => {
           <DeleteModal
             isSubmitting={fetching}
             onDismiss={onClose}
-            onSubmitting={() => deleteWorkScheduleMutation.mutate(id.toString())}
+            onSubmitting={() =>
+              deleteWorkScheduleMutation.mutate(id.toString())
+            }
           />
         ),
       },
@@ -210,11 +216,15 @@ const useWorkSchedules = () => {
       cell: ({ row }) => {
         return (
           <ActionsDropdown
-            onView={() => onOpenChange(EActions.VIEW, row.original.workScheduleId)}
+            onView={() =>
+              onOpenChange(EActions.VIEW, row.original.workScheduleId)
+            }
             onDelete={() =>
               onOpenChange(EActions.DELETE, row.original.workScheduleId)
             }
-            onEdit={() => onOpenChange(EActions.UPDATE, row.original.workScheduleId)}
+            onEdit={() =>
+              onOpenChange(EActions.UPDATE, row.original.workScheduleId)
+            }
           />
         );
       },
